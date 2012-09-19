@@ -20,10 +20,6 @@
 		<h1>
 			<span data-link="name"></span>
 			<span>,</span>
-			<!--
-			<span data-link="{:~getOrgTitle()}" class="primOrg"></span>
-			<span>,</span>
-			-->
 			<span data-link="currentTitle"></span>
 			<br>
 		</h1>
@@ -144,9 +140,6 @@
 					
 				
 				</div>
-				<!--
-				<button class="savebutton">Save</button>
-				-->
 			</div name="endContainerone">
 				
 		
@@ -160,9 +153,6 @@
 					<div class="propWrapper viewmode">
 					<label>Degree: </label>
 					<span data-link="degree" class="viewing"></span>
-					<!--
-					<input data-link="degree" class="editing" />
-					-->
 					<select class="degreeTypesAddSelect editing" data-link="degree">{{:~addDegreesHelper()}}</select>
 					<label>Field: </label>
 					<span data-link="field" class="viewing"></span>
@@ -210,20 +200,13 @@
 					<button class="propAddButton xemployment_position_employer_startYear_endYear_dltPrint">Add Law Teaching Employment:</button>
 					{{for employment}}
 						<div class="propWrapper viewmode">
-							<!--
-							<span class="emplTitleSpan">
-								<label>Title: </label>
-								<input type="radio" name="current" class="ctRadio" data-link="value{:~isCurrentTitle(position)}"/>
-							</span>
-							-->
+							
 							<label>Position: </label>
 							<span data-link="position" class="viewing"></span>
 							<input data-link="position" class="editing" />
 							<label>Employer: </label>
 							<span data-link="employer" class="viewing"></span>
-							<!--
-							<input data-link="employer" class="editing" />
-							-->
+							
 							<select class="employerSelect editing">
 								<option class="pleaseSelect">Please Select:</option>
 								{{for ~schoolLinks(#parent.parent.index)}}
@@ -249,20 +232,13 @@
 					<button class="propAddButton xnonTeachingEmployment_position_employer_startYear_endYear_dltPrint">Add Other Employment:</button>
 					{{for nonTeachingEmployment}}
 						<div class="propWrapper viewmode">
-							<!--
-							<span class="emplTitleSpan">
-								<label>Title: </label>
-								<input type="radio" name="current" class="ctRadio" data-link="value{:~isCurrentTitle(position)}"/>
-							</span>
-							-->
+							
 							<label>Position: </label>
 							<span data-link="position" class="viewing"></span>
 							<input data-link="position" class="editing" />
 							<label>Employer: </label>
 							<span data-link="employer" class="viewing"></span>
-							<!--
-							<input data-link="employer" class="editing" />
-							-->
+							
 							<select class="employerSelect editing">
 								<option class="pleaseSelect">Please Select:</option>
 								{{for ~schoolLinks(#parent.parent.index)}}
@@ -468,20 +444,10 @@
 	</div>
 </script>
 
-<script id="profTemplateB" type="text/x-jsrender">
-		/*
-		<div class="topspanB">
-			<input data-link="name" />
-		</div>
-		*/
-		
-</script>
-
 
 
 <script type="text/javascript">
-	//alert("Hello");
-	//onclick="alert($(this).text() + $.view(this).index.toString());"
+	
 
 $(document).ready(function() {
 	var profs = [
@@ -691,18 +657,18 @@ $(document).ready(function() {
 				return profs[ind].schoolLinks;
 			},
 			tfyn: function(tfval) {
-					//console.log('tfyn:' + tfval + (tfval === "true") + (tfval === true));
+					
 					return ((tfval === true) || (tfval === "true"))  ? "Yes" : "No";
 			},
 			validyear: function(yearstring) {
 				return (yearstring === "(Edit)") || ((yearstring.length <= 0) || ((parseInt(yearstring) >= 1870) && (parseInt(yearstring) <= 2020))) ? yearstring : "Please provide a valid year in YYYY format or leave blank for N/A continuing";
 			},
 			yntf: function(ynval) {
-				//console.log('yftn:' + ynval);
+				
 				return ynval === "Yes" ? "true" : "false";
 			},
 			tenureCheck: function(tncheck) {
-				//console.log(tncheck);
+				
 				return tncheck === "Yes" ? "true" : undefined;
 			},
 			getCurrentTitle: function(employmentcollection) {
@@ -710,7 +676,7 @@ $(document).ready(function() {
 				$.each( employmentcollection, function(index, item) {
 					if (item.current === "true")
 					{
-						//console.log("GCT Check:" +  item.position + "#" + item.current);
+						
 						currentPosition = item.position;
 					}
 				}
@@ -719,12 +685,12 @@ $(document).ready(function() {
 			},
 			isCurrentTitle: function(position) {
 				var view = this;
-				//console.log(view.parent.parent.data.currentTitle + "pos:" + position + (view.parent.parent.data.currentTitle === position));
+				
 				return view.parent.parent.data.currentTitle === position ? "on" : "";
 			},
 			isPrimarySchool: function() {
 				var view = this;
-				//console.log(view.index + (view.parent.data[view.index].primary === "true").toString());
+				
 				return view.parent.data[view.index].primary === "true" ? "on" : "";
 			},
 			getOrgTitle: function() {
@@ -751,11 +717,10 @@ $(document).ready(function() {
 			addTitleOptionsHelper: function(ind) {
 				var helperListOfTitles = "";
 				
-				//console.log(profs[ind].employment[3].endYear.toString());
+				
 				
 				
 				$.each(profs[ind].employment, function(index, item){
-					//helperListOfSubjects = helperListOfSubjects + "<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>"
 					
 					if (item.endYear.toString() === "")
 					{
@@ -769,7 +734,6 @@ $(document).ready(function() {
 				);
 				
 				$.each(profs[ind].nonTeachingEmployment, function(index, item){
-					//helperListOfSubjects = helperListOfSubjects + "<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>"
 					
 					if (item.endYear.toString() === "")
 					{
@@ -801,7 +765,6 @@ $(document).ready(function() {
 			return val === "true" ? "true" : undefined;
 		},
 		checkedToTrueFalse: function ( val ) {
-			//console.log("cttf: " + "val?" + val + ";val===true?" + (val === true));
 			return val === true ? "true" : "false";
 		},
 		trueFalseToYesNo: function( val ) {
@@ -818,7 +781,6 @@ $(document).ready(function() {
 	profs[0].employment.sort( function(a,b) { return parseInt(b.startYear) - parseInt(a.startYear); } );
 	
 	$.templates({
-		//profTmplB: "#profTemplateB",
 		profTmpl: "#profTemplate"
 	});
 	
@@ -827,14 +789,11 @@ $(document).ready(function() {
 		alert(JSON.stringify(profs));
 		
 	});
-	//$.link.profTmplB(profs, "#profListDivB");
+	
 	$.link.profTmpl(profs, "#profListDiv", contextHelpers)
 		.on("click", ".propAddButton", function()
 		{
-			//$.observable( movies ).remove( $.view( this ).index, 1 );
-			//alert("propAddClick");
-			//var thisprofsPropOnes = $.view(this).data.propOne;
-			//$.observable(thisprofsPropOnes).insert(thisprofsPropOnes.length, {propValue: "newPropValue"});
+			
 			var classList =$(this).attr('class').split(/\s+/);
 			var that = this;
 			var fdomain;
@@ -847,12 +806,11 @@ $(document).ready(function() {
 						{
 							var keyValueList = item.split(/_/);
 							var myKey = keyValueList.shift();
-							//alert(myKey.slice(1, myKey.length));
+							
 							myKey = myKey.slice(1, myKey.length);
-							//alert(myKey);
-							//alert(keyValueList.length);
+							
 							var thisprofsProperty = $.view(that).data[myKey];
-							//alert(thisprofsProperty);
+							
 							prepareValueList(keyValueList);
 							$.observable(thisprofsProperty).insert(thisprofsProperty.length, prepareValueList(keyValueList));
 						}
@@ -863,11 +821,11 @@ $(document).ready(function() {
 		)
 		.on("click", ".deletePropButton", function(event)
 		{
-			//view here must map to the individual property?
+			
 			if($(this).hasClass("italic"))
 			{
 				var view = $.view(this);
-				//alert(objToString(view));
+				
 				$.observable( view.parent.data ).remove( view.index, 1 );
 			}
 			else
@@ -879,10 +837,7 @@ $(document).ready(function() {
 		)
 		.on("click", ".editPropButton,.savePropButton", function(event)
 		{
-			//edit - toggle CSS class on parent div
-			//alert("h");
-			//$(this).parentsUntil(".propWrapper").toggleClass("viewmode editmode");
-			//alert($(event.target).parents(".propWrapper").size());
+			
 			var closestPropwrapper = $(this).closest(".propWrapper");
 			if ($(closestPropwrapper).hasClass("viewmodeb") || $(closestPropwrapper).hasClass("editmodeb"))
 			{
@@ -896,14 +851,14 @@ $(document).ready(function() {
 		)
 		.on("click", ".subjAddSelect option", function(event)
 		{
-			//alert("select");
+			
 			var subjects = $.view(this).data.subjects;
-			//alert($.view(this).data.subjects[$(this).text()]);
+			
 			var thisSubj = $(this).text();
-			//console.log("THIS SUBJECT:" + thisSubj);
+			
 			var match = 0;
 			$.each (subjects, function(index, item) {
-				//console.log(item.subject + "#" + thisSubj);
+				
 				if(item.subject === thisSubj)
 				{
 					match++;
@@ -928,10 +883,7 @@ $(document).ready(function() {
 			}
 			else
 			{
-				//console.log($.view($(this).parent()).data["employer"].toString());
-				//console.log('thisEmployer=' + $.view(this).parent.data.employer);
-				//console.log('thisText=' + $(this).text());
-				//$(this).parent().siblings(".makeMeInvisible").text($(this).text());
+				
 				$.observable($.view($(this).parent()).data).setProperty('employer', $(this).text());
 			}
 		}
@@ -957,26 +909,20 @@ $(document).ready(function() {
 		)
 		.on ("click", ".ctRadio", function(event)
 		{
-			//Debug:
-			//console.log($(this).attr("value"));
+			
 			var rootview = $.view(this).parent.parent;
 			var thisview = $.view(this);
 			var curTitle = rootview.data.currentTitle;
 			var thisTitle = thisview.data.position;
 			
-			//console.log(rootview.data.currentTitle + "###thisview:" + thisview.data.position + "==?" + (rootview.data.currentTitle === thisview.data.position));
+			
 			if (curTitle === thisTitle)
 			{
-				//do nothing
+				
 			}
 			else
 			{
-				//curTitle = thisTitle;
-				//console.log($.observable(rootview.data).data().currentTitle);
-				//console.log($.observable(rootview.data.currentTitle));
-				//$.observable(rootview.data.ethnicity).remove(0, 1);
-				//rootview.data.currentTitle = thisTitle;
-				//console.log(rootview.data.currentTitle);
+				
 				$.observable(rootview.data).setProperty("currentTitle", thisTitle);
 			}
 		}
@@ -984,7 +930,7 @@ $(document).ready(function() {
 		.on ("click", ".psRadio", function(event)
 		{
 			//Debug:
-			//console.log($(this).attr("value"));
+			
 			var thisview = $.view(this);
 			var schools = thisview.parent.data;
 			var thisindex = thisview.index;
@@ -992,33 +938,33 @@ $(document).ready(function() {
 			$.each( schools, function(index, item) {
 					if (index === thisindex)
 					{
-						//item.primary = "true";
+						
 						$.observable(item).setProperty("primary", "true");
-						//console.log("primary set:" + item.schoolName);
+						
 						$(".primOrg").text(item.schoolName);
 					}
 					else
 					{
-						//item.primary = "false";
+						
 						$.observable(item).setProperty("primary", "false");
-						//console.log("primary off:" + item.schoolName);
+						
 					}
 				}
 			);
-			//console.log("after observe:" + thisview.parent.data[0].primary.toString() + thisview.parent.data[1].primary.toString());
+			
 		}
 		)
 		.on ("click", ".pubsubjAddSelect option", function(event)
 		{
 		
-			//alert("select");
+			
 			var subjects = $.view(this).data.subjects;
-			//alert($.view(this).data.subjects[$(this).text()]);
+			
 			var thisSubj = $(this).text();
-			//console.log("THIS SUBJECT:" + thisSubj);
+			
 			var match = 0;
 			$.each (subjects, function(index, item) {
-				//console.log(item.subject + "#" + thisSubj);
+				
 				if(item.subject === thisSubj)
 				{
 					match++;
@@ -1048,7 +994,7 @@ $(document).ready(function() {
 		.on ("click", ".printMe", function(event)
 		{
 		
-			//get max var
+			
 			var classList = $(this).attr('class').split(/\s+/);
 			var thisMax = 5;
 			$.each(
@@ -1066,11 +1012,11 @@ $(document).ready(function() {
 					
 				}
 			);
-			//console.log('thisMax=' + thisMax.toString());
+			
 			//if checked:
 			if ($(this).attr('checked'))
 			{
-				//console.log('checked=true');
+				
 				//if at max:
 				var countMe = $.view(this).parent.data;
 				var limitCounter = 0;
@@ -1082,7 +1028,7 @@ $(document).ready(function() {
 						{
 							
 							limitCounter++;
-							//console.log('  limitCounter=' + limitCounter.toString());
+							
 						}
 						if (limitCounter === (thisMax + 1))
 						{
@@ -1100,7 +1046,7 @@ $(document).ready(function() {
 			//else:
 			else
 			{
-				//console.log('checked=false');
+				
 				//change observable at index to unchecked
 				$.observable($.view(this)).setProperty("dltPrint","false");
 				
@@ -1113,23 +1059,6 @@ $(document).ready(function() {
 			var newTitleList = contextHelpers.addTitleOptionsHelper(0);
 			console.log(newTitleList);
 			
-			/*
-			var parentsCount = 1;
-			var countmyparents = $(this);
-			while (parentsCount >= 1)
-			{
-				console.log(parentsCount.toString() + ":" + $(countmyparents).attr('class') + 'I Have ' + countmyparents.parents().length.toString() + ' parents')
-				parentsCount = countmyparents.parents().length;
-				countmyparents = countmyparents.parent();
-			}
-			console.log($(this).closest('.backStop').children().length.toString());
-			*/
-			
-			/*
-			var pdHolder = $.view(this).parent.data;
-			console.log("index=" + pdHolder);
-			*/
-			
 			var thisCTS = $(this).closest('.accordionContainer').find('.currentTitleSelect');
 			thisCTS.replaceWith('<span class="phb">placeholder</span>');
 			thisCTS.empty();
@@ -1140,20 +1069,6 @@ $(document).ready(function() {
 			$.view(this).parent.data.sort( function(a,b) { return parseInt(b.startYear) - parseInt(a.startYear); } );
 			//refresh observable
 			$.observable($.view(this).parent.data).refresh($.view(this).parent.data);
-			//re-apply disable styles to non-current::DEPRECATED
-			//$(this).closest('.propWrapper').children('.emplEndYear').filter(function(index) {return $(this).text().length > 3}).prevAll('.emplTitleSpan').attr('disabled','true');
-			//$(this).closest('.propWrapper').children('.emplEndYear').filter(function(index) {console.log(index.toString() + $(this).text()); return $(this).text().length <= 3}).prevAll('.emplTitleSpan').removeAttr('disabled');
-			//$('.emplEndYear').filter(function(index) {return $(this).text().length > 0}).prevAll('.emplTitleSpan').attr('disabled','true');
-			
-			//$(this).closest('.accordionContainer').children('.currentTitleSelect').after('<div>HelloWorld</div>');
-			
-			//thisCTS.after("HelloWorld");
-			/*
-			thisCTS.replaceWith('<span class="phb">placeholder</span>');
-			thisCTS.empty();
-			thisCTS.append(newTitleList);
-			$(this).closest('.accordionContainer').children('.currentTitleSelect').replaceWith(thisCTS);
-			*/
 		}
 		)
 		;
@@ -1169,29 +1084,6 @@ $(document).ready(function() {
 	$(".ph").replaceWith(slcontrol);
 	
 	//END: DEFER
-	
-	/*
-	var pslcontrol = $(".pubsubjAddSelect");
-	
-	$.each ( pslcontrol, function(index, item) {
-		console.log(item.toString());
-		
-		$(item).replaceWith('<span class="ph">placeholder</span>');
-		var psubjlist = subjlist;
-		console.log(psubjlist.toString());
-		
-		var thispsl = item;
-		console.log(thispsl.toString());
-		
-		$.each( psubjlist, function(index, item) {
-			$(thispsl).append("<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>");
-		}
-		);
-		$(".ph").replaceWith(thispsl);
-		
-	}
-	);
-	*/
 	
 	
 	function prepareValueList(valuelist) 
@@ -1216,19 +1108,8 @@ $(document).ready(function() {
 		return pvl;
 	}
 	$(".accordionDiv").accordion({ collapsible: true, active: false, alwaysOpen: false,  autoHeight: false  });
-	//$('.emplEndYear').filter(function(index) {return $(this).text().length > 0}).prevAll('.emplTitleSpan').attr('disabled','true');
 
 });
-
-	
-
-
-
-			
-		
-
-	
-	//alert("h");
 	
 
 </script>
