@@ -1,0 +1,260 @@
+html {
+	background-color: rgb(255, 250, 248);
+	background-color: rgb(255, 250, 243);
+}
+
+
+.viewing, .viewingb {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(220, 170, 170);
+	padding: 2px;
+	margin: 4px;
+	background-color: rgb(245, 230, 215);
+}
+
+.viewmode .editing{
+	display: none;
+}
+
+.editmode .viewing{
+	display: none;
+}
+
+.viewmodeb .editingb{
+	display: none;
+}
+
+.editmodeb .viewingb{
+	display: none;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.accordionContainer {
+	position: relative;
+	margin-left: 3%;
+	padding: 5px;
+	border-top-color: rgb(190, 190, 190); 
+	border-bottom-color: rgb(190, 190, 190); 
+	border-top-width: 0px; 
+	border-bottom-width: 0px; 
+	border-top-style: solid; 
+	border-bottom-style: solid;
+}
+.teachingHead {
+	position: relative;
+	margin-left: 3%;
+}
+
+.subjectHead {
+	border-bottom-color: rgb(200, 200, 200);
+	border-bottom-width: 2px;
+	border-bottom-style: solid; 
+}
+
+.propWrapper {
+	margin-top: 3px;
+	margin-bottom: 3px;
+	margin-right: 3px;
+	background-color: rgb(245, 245, 255);
+	border-color: rgb(225, 225, 225);
+	border-width: 4px;
+	border-style: double;
+	
+}
+
+
+table {
+	border-color: rgb(100, 100, 100);
+	border-width: 2px;
+	border-style: solid;
+	
+}
+
+td {
+	padding: 2px;
+	margin: 0px;
+	text-align:center;
+}
+
+
+
+
+h1 {
+	border-top-color: rgb(120, 120, 180); 
+	border-bottom-color: rgb(120, 120, 180); 
+	border-top-width: 4px; 
+	border-bottom-width: 4px; 
+	border-top-style: solid; 
+	border-bottom-style: solid;
+	background-color: rgb(245, 245, 255);
+}
+
+h3{
+	position: relative;
+	margin-left: 2%;
+	border-width: 0px;
+	border-style: solid; 
+	border-color: rgb(240, 230, 220);
+	padding: 2px;
+}
+
+h4,h5{
+	display: inline;
+	text-decoration: underline;
+}
+
+label {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(180, 180, 220);
+	padding: 2px;
+	margin: 2px;
+	background-color: rgb(240, 240, 240);
+	font-size: small;
+	
+}
+
+th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(180, 180, 220);
+	padding: 2px;
+	margin: 2px;
+	background-color: rgb(240, 240, 240);
+	font-size: small;
+}
+
+.ethTable {
+	position: relative;
+	margin-left: 2%;
+	border: none;
+	
+}
+
+.ethTable  td{
+	padding: 3px;
+	text-align:left;
+	margin: 3px;
+}
+
+.ethTable  td span{
+	margin: 2px;
+}
+
+.marginDown {
+	margin-bottom: 3px;
+}
+
+.editPropButton {
+	background-color: rgb(159, 224, 159);
+	border-style: outset;
+	border-width: 1px;
+	border-color: rgb(200, 225, 200);
+	border-radius: 8px;
+	box-shadow: inset 0px 2px 2px rgb(240, 240, 240), 0px 1px 2px rgba(30, 30, 30, .5);
+}
+
+.savePropButton  {
+	background-color: rgb(159, 224, 159);
+	border-style: outset;
+	border-width: 2px;
+	border-color: rgb(250, 170, 170);
+	border-radius: 8px;
+	box-shadow: inset 0px 2px 2px rgb(240, 240, 240), 0px 1px 2px rgba(30, 30, 30, .5);
+}
+
+.deletePropButton {
+	background-color: rgb(224, 159, 159);
+	border-style: outset;
+	border-width: 1px;
+	border-color: rgb(225, 210, 210);
+	border-radius: 8px;
+	box-shadow: inset 0px 2px 2px rgb(240, 240, 240), 0px 1px 2px rgba(30, 30, 30, .5);
+}
+
+.propAddButton {
+	background-color: rgb(138, 180, 224);
+	border-style: outset;
+	border-width: 1px;
+	border-color: rgb(180, 180, 200);
+	border-radius: 8px;
+	box-shadow: inset 0px 2px 2px rgb(240, 240, 240), 0px 1px 2px rgba(30, 30, 30, .5);
+}
+
+.colorMeBlue {
+	background-color: rgb(138, 180, 224);
+}
+
+.subjectsDiv {
+	position: relative;
+	margin-left: 3%;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.subjMargin {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.subjSpan {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(230, 120, 120);
+	padding: 2px;
+	margin: 2px;
+	background-color: rgb(250, 240, 230);
+	font-size: small;
+}
+
+.printMe {
+	vertical-align: center;
+}
+
+.ixoTable td {
+	background-color: rgb(245, 245, 255);
+}
+
+.titleWrapper {
+	padding: 3px;
+}
+
+.loginDiv {
+	width: 50% ;
+	margin-left: 35%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-width: 0px;
+	border-style: solid;
+	border-color: rgb(120, 120, 120);
+}
+
+.loginMargin {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.hideMe {
+	display: none;
+}
+
+.updateLabel {
+	position: relative;
+	margin-left: 2%;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(220, 180, 180);
+	background-color: rgb(240, 240, 240);
+	font-size: large;
+}
+
+.lastUpdateSpan {
+	font-size: x-small;
+}
+
+

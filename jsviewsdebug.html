@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="js/jqv/jquery-1.8.0.min.js" type="text/javascript"></script>
+	<script src="js/jqv/jquery.accordion.js" type="text/javascript"></script>
+	<script src="js/jqv/jsrender.js" type="text/javascript"></script>
+	<script src="js/jqv/jquery.observable.js" type="text/javascript"></script>
+	<script src="js/jqv/jquery.views.js" type="text/javascript"></script>
+	<script src="js/jqv/json2.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="jsviewcss.css">
+</head>
+<body>
+<p>Header</p>
+<button id="testme">tester</button>
+<div id="profListDiv"></div>
+<div id="profListDivB"></div>
+<script id="profTemplate" type="text/x-jsrender">
+	<div>
+		<h1>
+			<span data-link="name"></span>
+			<span>,</span>
+			<!--
+			<span data-link="{:~getOrgTitle()}" class="primOrg"></span>
+			<span>,</span>
+			-->
+			<span data-link="currentTitle"></span>
+			<br>
+		</h1>
+		<div class="accordionDiv">
+			<h3><a href="#">School, Personal, Demographics & Privacy</a></h3>
+			<div class="accordionContainer">
+				<table rules="all" class="ixoTable">
+					<thead>
+						<tr>
+							<th>Permanent</th>
+							<th>School Name</th>
+							<th>Position Type</th>
+							<th>Status</th>
+							<th>Leaving</th>
+						</tr>
+					</thead>
+					{{for schoolLinks}}
+						<tr>
+							<td><input disabled="true" type="radio" name="primarySchool" class="psRadio" data-link="value{:~isPrimarySchool()}" /></td>
+							<td><span data-link="schoolName"></span></td>
+							<td><span data-link="positionType"></span></td>
+							<td><span data-link="career"></span></td>
+							<td><span data-link="leaving"></span></td>
+						</tr>
+					{{/for}}
+				</table>
+				<div>
+					<div class="marginDown">
+						
+						<div class="propWrapper viewmode">
+							<label>Tenured?:</label>
+							<span data-link="tenured"></span>
+							{{if tenured === "Yes"}}
+								<label> Tenure Year:</label>
+								<span data-link="~validyear(tenureYear)" class="viewing"></span>
+								<input data-link="tenureYear" class="editing" />
+								<button class="editPropButton viewing">Edit</button>
+								<button class="savePropButton editing">Done</button>
+							{{/if}}
+						</div>
+					</div>
+					<a href="mailto:aa@aa.org">If you notice any errors in the information above, click here to email org and report the error.</a>
+					<br>
+					<div class="propWrapper viewmode">
+						<label>Title:</label>
+						<a href="#" onclick="var thispindex = $.view(this).index; $('.employDiv').eq(thispindex).click();">
+							<span data-link="{:currentTitle}"></span>
+						</a>
+					</div>
+					<h4><span>Demographic Information (used only for statistics and hiring purposes):</span></h4>
+					<div class="marginDown">
+						
+						<div class="propWrapper viewmode">
+							<label>Birth Year:</label>
+							<span data-link="~validyear(birthYear)" class="viewing"></span>
+							<input data-link="birthYear" class="editing" />
+							<button class="editPropButton viewing">Edit</button>
+							<button class="savePropButton editing">Done</button>
+						</div>
+					</div>
+					<div class="marginDown">
+						
+						<div class="propWrapper viewmode">
+							<label>Email:</label>
+							<span data-link="email" class="viewing"></span>
+							<input data-link="email" class="editing" />
+							<button class="editPropButton viewing">Edit</button>
+							<button class="savePropButton editing">Done</button>
+						</div>
+					</div>
+					<div class="marginDown">
+						
+						<div class="propWrapper viewmode">
+							<label>Gender:</label>
+							<span data-link="gender" class="viewing"></span>
+							<span class="editing" >
+								<input type="radio" name="genderRadio" value="Male" data-link="gender" /><span>Male</span>
+								<input type="radio" name="genderRadio" value="Female" data-link="gender" /><span>Female</span>
+								<input type="radio" name="genderRadio" value="Other" data-link="gender" /><span>Other</span>
+							</span>
+							<button class="editPropButton viewing">Edit</button>
+							<button class="savePropButton editing">Done</button>
+						</div>
+					</div>
+					<div class="marginDown propWrapper">
+						<label>Ethnicity: </label><span class="colorMeBlue">(select to add)</span>
+						<select class="ethSelect">
+							<option value="Black">Black(non-Hisp.orig.)</option>
+							<option value="NativeAm">Native Am./Alaskan Nat.</option>
+							<option value="Hispanic">Chicano/Mexican-Am.</option>
+							<option value="OtherLatin">Other Hispanic/Latin</option>
+							<option value="Asian">Asian/Pac-Isl.</option>
+							<option value="PuertoRican">Puerto Rican</option>
+							<option value="White">White(non-Hisp.orig.)</option>
+							<option value="Minority">Other Ethnic</option>
+						</select>
+						<table class="ethTable">
+						{{for ethnicity}}
+							<tr><td><span data-link="ethval" class="viewing"></span><button class="deletePropButton">Delete</button></td></tr>
+						{{/for}}
+						</table>
+					</div>
+					
+					<h4><span>Privacy Options:</span></h4>
+					<div class="propWrapper viewmode">
+						<label>Print Age In DLT?:</label><span data-link="~tfyn(birthYearoptin)" class="viewing" /><input type="checkbox" data-link="{:birthYearoptin:} checked{:~yntf(birthYearoptin)}" class="editing" />
+						<label>Print Gender In DLT?:</label><span data-link="~tfyn(genderOptin)" class="viewing"></span><input type="checkbox" data-link="{:genderOptin:} checked{:~yntf(genderOptin)}" class="editing" />
+						<button class="editPropButton viewing">Edit</button>
+						<button class="savePropButton editing">Done</button>
+					</div>
+					<div class="propWrapper viewmode">
+						
+						<label>Appear in Minority Law Teachers List If Applicable?:</label><span data-link="~tfyn(ethnicityOptin)" class="viewing"></span><input type="checkbox" data-link="{:ethnicityOptin:} checked{:~yntf(ethnicityOptin)}" class="editing" />
+						<button class="editPropButton viewing">Edit</button>
+						<button class="savePropButton editing">Done</button>
+					
+					</div>
+					
+				
+				</div>
+				<!--
+				<button class="savebutton">Save</button>
+				-->
+			</div name="endContainerone">
+				
+		
+		
+		
+			<h3><a href="#" class="degreeDiv">Education</a></h3>
+			
+			<div class="accordionContainer">
+				<button class="propAddButton xdegrees_degree_yearAwarded_field_school">Add Degree:</button>
+				{{for degrees}}
+					<div class="propWrapper viewmode">
+					<label>Degree: </label>
+					<span data-link="degree" class="viewing"></span>
+					<!--
+					<input data-link="degree" class="editing" />
+					-->
+					<select class="degreeTypesAddSelect editing" data-link="degree">{{:~addDegreesHelper()}}</select>
+					<label>Field: </label>
+					<span data-link="field" class="viewing"></span>
+					<input data-link="field" class="editing" />
+					<label>School: </label>
+					<span data-link="school" class="viewing"></span>
+					<input data-link="school" class="editing" />
+					<label>Year Awarded: </label>
+					<span data-link="~validyear(yearAwarded)" class="viewing"></span>
+					<input data-link="yearAwarded" class="editing" />
+					<button class="editPropButton viewing">Edit</button>
+					<button class="savePropButton editing">Done</button>
+					<button class="deletePropButton viewing">Delete</button>
+					</div>
+				{{/for}}
+				<br>
+				<div><button class="propAddButton xlawReview_position_publication_dltPrint">Add Law Review:</button></div>
+				{{for lawReview}}
+					<div class="propWrapper viewmode">
+					<label>Position: </label>
+					<span data-link="position" class="viewing"></span>
+					<input data-link="position" class="editing" />
+					<label>Publication: </label>
+					<span data-link="publication" class="viewing"></span>
+					<input data-link="publication" class="editing" />
+					<label class="printMeLabel">Print?<input type="checkbox" class="printMe max5" data-link="{trueFalseToChecked:dltPrint:checkedToTrueFalse} checked{trueFalseToChecked:dltPrint}" /></label>
+					<button class="editPropButton viewing">Edit</button>
+					<button class="savePropButton editing">Done</button>
+					<button class="deletePropButton viewing">Delete</button>
+					</div>			
+				{{/for}}
+			</div>
+			<h3><a href="#" class="employDiv">Employment</a></h3>
+			<div class="accordionContainer">
+				<span class="backStop">
+					
+					<div class="propWrapper viewmode">
+						<label>Title: </label>
+						<span data-link="{:currentTitle}" class="viewing"></span>
+						<select class="currentTitleSelect editing">{{:~addTitleOptionsHelper(#index)}}</select>
+						<button class="editPropButton viewing">Edit</button>
+					</div>
+					
+					<br>
+					<button class="propAddButton xemployment_position_employer_startYear_endYear_dltPrint">Add Law Teaching Employment:</button>
+					{{for employment}}
+						<div class="propWrapper viewmode">
+							<!--
+							<span class="emplTitleSpan">
+								<label>Title: </label>
+								<input type="radio" name="current" class="ctRadio" data-link="value{:~isCurrentTitle(position)}"/>
+							</span>
+							-->
+							<label>Position: </label>
+							<span data-link="position" class="viewing"></span>
+							<input data-link="position" class="editing" />
+							<label>Employer: </label>
+							<span data-link="employer" class="viewing"></span>
+							<!--
+							<input data-link="employer" class="editing" />
+							-->
+							<select class="employerSelect editing">
+								<option class="pleaseSelect">Please Select:</option>
+								{{for ~schoolLinks(#parent.parent.index)}}
+									<option data-link="{:schoolName}"><span></span></option>
+								{{/for}}
+								<option class="displayFreeText">Other:(Type In)</option>
+							</select>
+							<input data-link="employer" class="editing makeMeInvisible" />
+							<label>First Year: </label>
+							<span data-link="~validyear(startYear)" class="viewing emplStartYear"></span>
+							<input data-link="startYear" class="editing" />
+							<label>Final Year: </label>
+							<span data-link="~validyear(endYear)" class="viewing  emplEndYear"></span>
+							<input data-link="endYear" class="editing" />
+							<label class="printMeLabel">Print?<input type="checkbox" class="printMe max5" data-link="{trueFalseToChecked:dltPrint:checkedToTrueFalse} checked{trueFalseToChecked:dltPrint}" /></label>
+							<button class="editPropButton viewing">Edit</button>
+							<button class="savePropButton editing empStyle">Done</button>
+							<button class="deletePropButton viewing">Delete</button>
+						
+						</div>
+					{{/for}}
+					<br>
+					<button class="propAddButton xnonTeachingEmployment_position_employer_startYear_endYear_dltPrint">Add Other Employment:</button>
+					{{for nonTeachingEmployment}}
+						<div class="propWrapper viewmode">
+							<!--
+							<span class="emplTitleSpan">
+								<label>Title: </label>
+								<input type="radio" name="current" class="ctRadio" data-link="value{:~isCurrentTitle(position)}"/>
+							</span>
+							-->
+							<label>Position: </label>
+							<span data-link="position" class="viewing"></span>
+							<input data-link="position" class="editing" />
+							<label>Employer: </label>
+							<span data-link="employer" class="viewing"></span>
+							<!--
+							<input data-link="employer" class="editing" />
+							-->
+							<select class="employerSelect editing">
+								<option class="pleaseSelect">Please Select:</option>
+								{{for ~schoolLinks(#parent.parent.index)}}
+									<option data-link="{:schoolName}"><span></span></option>
+								{{/for}}
+								<option class="displayFreeText">Other:(Type In)</option>
+							</select>
+							<input data-link="employer" class="editing makeMeInvisible" />
+							<label>First Year: </label>
+							<span data-link="~validyear(startYear)" class="viewing emplStartYear"></span>
+							<input data-link="startYear" class="editing" />
+							<label>Final Year: </label>
+							<span data-link="~validyear(endYear)" class="viewing  emplEndYear"></span>
+							<input data-link="endYear" class="editing" />
+							<label class="printMeLabel">Print?<input type="checkbox" class="printMe max5" data-link="{trueFalseToChecked:dltPrint:checkedToTrueFalse} checked{trueFalseToChecked:dltPrint}" /></label>
+							<button class="editPropButton viewing">Edit</button>
+							<button class="savePropButton editing empStyle">Done</button>
+							<button class="deletePropButton viewing">Delete</button>
+						
+						</div>
+					{{/for}}
+				</span>
+			</div>
+			<h3>
+			<a href="#">Teaching</a>
+			</h3>
+			
+			<div class="accordionContainer">
+			<div class="propWrapper viewmode">
+				<label>Total Number of Years Teaching Law Full-Time:</label>
+				<span data-link="{intToYearsTeaching:totalYearsTeaching}" class="viewing"></span>
+				<input data-link="{intToYearsTeaching:totalYearsTeaching:yearsTeachingToInt}" class="editing" />
+				<button class="editPropButton viewing">Edit</button>
+				<button class="savePropButton editing">Done</button>
+			</div>
+			<br><br>
+			<span class="colorMeBlue">
+				<span>Select To Add Subject: </span>
+				<select class="subjAddSelect"></select>
+			</span>
+				{{for subjects}}
+					
+					<div class="propWrapper viewmode">
+						<div class="subjectHead">
+							<h4><a><span data-link="subject"></span></a></h4>
+							
+							<button class="deletePropButton viewing">Delete</button>
+						</div>
+						
+						<div class="teachingHead">
+							<div class="propWrapper viewmodeb borderBottom">
+								<label>Years Teaching: </label>
+								<span data-link="{intToYearsTeaching:yearsTeaching}" class="viewingb"></span>
+								<input data-link="{intToYearsTeaching:yearsTeaching:yearsTeachingToInt}" class="editingb" />
+								<button class="editPropButton viewingb">Edit</button>
+								<button class="savePropButton editingb">Done</button>
+							</div>
+							<div><button class="propAddButton xcourses_coursetitle_seminar">Add Course:</button></div>
+							<h5><a>Courses: </a></h5>
+							{{for courses}}
+								<div class="propWrapper viewmodeb teachingProp borderBottom">
+									<label>Course Title: </label>
+									<span data-link="coursetitle" class="viewingb"></span>
+									<input data-link="coursetitle" class="editingb" />
+									<label>Seminar?: </label>
+									<span data-link="{trueFalseToYesNo:seminar}" class="viewingb"></span>
+									<input type="checkbox" data-link="{trueFalseToChecked:seminar:checkedToTrueFalse} checked{trueFalseToChecked:seminar}" class="editingb" />
+									<label>Currently Teaching?: </label>
+									<span data-link="{trueFalseToYesNo:currentlyTeaching}" class="viewingb"></span>
+									<input type="checkbox" data-link="{trueFalseToChecked:currentlyTeaching:checkedToTrueFalse} checked{trueFalseToChecked:currentlyTeaching}" class="editingb" />
+									<button class="editPropButton viewingb">Edit</button>
+									<button class="savePropButton editingb">Done</button>
+									<button class="deletePropButton viewingb">Delete</button>
+								</div>
+							{{/for}}
+						</div>
+						
+					</div>
+				{{/for}}
+			</div>
+			<h3>
+			<a href="#">Scholarship</a>
+			</h3>
+			<div class="accordionContainer">
+				<div>
+					<div><button class="propAddButton xbooks_booktitle_year_0subjects_dltPrint">Add Book:</button></div>
+					
+					{{for books}}
+						<div class="propWrapper viewmode bookProp borderBottom">
+							<label>Title: </label>
+							<span data-link="booktitle" class="viewing"></span>
+							<input data-link="booktitle" class="editing" />
+							<label>Year: </label>
+							<span data-link="~validyear(year)" class="viewing"></span>
+							<input data-link="year" class="editing" />
+							<label class="printMeLabel">Print?<input type="checkbox" class="printMe max5" data-link="{trueFalseToChecked:dltPrint:checkedToTrueFalse} checked{trueFalseToChecked:dltPrint}" /></label>
+							<button class="editPropButton viewing">Edit</button>
+							<button class="savePropButton editing">Done</button>
+							<button class="deletePropButton viewing">Delete</button>
+							<div class="subjMargin">
+								<div class="subjectsDiv">	
+									<span class="colorMeBlue">
+										<span>Select To Add: </span>
+										<select class="pubsubjAddSelect">{{:~addSubjectsHelper()}}</select>
+									</span>
+								</div>
+								<span class="subjectsDiv"><label>Subjects: </label></span>
+								{{for subjects}}
+									<span class="subjSpan"><span data-link="{:subject}"></span><span  class="deletePropButton">X</span></span>
+								{{/for}}
+							
+							</div>
+								
+						</div>
+					{{/for}}
+				</div>
+				<div>
+					<div><button class="propAddButton xarticles_title_year_journal_0subjects_dltPrint">Add Article:</button></div>
+					
+					{{for articles}}
+						<div class="propWrapper viewmode bookProp borderBottom">
+							<label>Title: </label>
+							<span data-link="title" class="viewing"></span>
+							<input data-link="title" class="editing" />
+							
+							<label>Journal: </label>
+							<span data-link="journal" class="viewing"></span>
+							<input data-link="journal" class="editing" />
+							<label>Year: </label>
+							<span data-link="~validyear(year)" class="viewing"></span>
+							<input data-link="year" class="editing" />
+							<label class="printMeLabel">Print?<input type="checkbox" class="printMe max5" data-link="{trueFalseToChecked:dltPrint:checkedToTrueFalse} checked{trueFalseToChecked:dltPrint}" /></label>
+							<button class="editPropButton viewing">Edit</button>
+							<button class="savePropButton editing">Done</button>
+							<button class="deletePropButton viewing">Delete</button>
+							<div class="subjMargin">
+								<div class="subjectsDiv">	
+									<span class="colorMeBlue">
+										<span>Select To Add: </span>
+										<select class="pubsubjAddSelect">{{:~addSubjectsHelper()}}</select>
+									</span>
+								</div>
+								<span class="subjectsDiv"><label>Subjects: </label></span>
+								{{for subjects}}
+									<span class="subjSpan"><span data-link="{:subject}"></span><span  class="deletePropButton">X</span></span>
+								{{/for}}
+							
+							</div>
+						</div>
+					{{/for}}
+				</div>
+			</div>
+			<h3>
+			<a href="#">Awards & Professional Affiliations</a>
+			</h3>
+			
+			
+			<div class="accordionContainer">
+			
+			
+			
+				<div><button class="propAddButton xawards_award_year_dltPrint">Add Award:</button></div>
+				{{for awards}}
+					<div class="propWrapper viewmode">
+					<label>Award: </label>
+					<span data-link="award" class="viewing"></span>
+					<input data-link="award" class="editing" />
+					<label>Year Awarded: </label>
+					<span data-link="~validyear(year)" class="viewing"></span>
+					<input data-link="year" class="editing" />
+					<label class="printMeLabel">Print?<input type="checkbox" class="printMe max5" data-link="{trueFalseToChecked:dltPrint:checkedToTrueFalse} checked{trueFalseToChecked:dltPrint}" /></label>
+					<button class="editPropButton viewing">Edit</button>
+					<button class="savePropButton editing">Done</button>
+					<button class="deletePropButton viewing">Delete</button>
+					</div>
+				{{/for}}
+				
+				<div><button class="propAddButton xacademicOrgs_org_title_dltPrint_startYear_endYear">Add Professional Affiliation:</button></div>
+				{{for academicOrgs}}
+					<div class="propWrapper viewmode">
+					<label>Organization Name: </label>
+					<span data-link="org" class="viewing"></span>
+					<input data-link="org" class="editing" />
+					<label>Title/Position: </label>
+					<span data-link="title" class="viewing"></span>
+					<input data-link="title" class="editing" />
+					<label>Start Year: </label>
+					<span data-link="~validyear(startYear)" class="viewing"></span>
+					<input data-link="startYear" class="editing" />
+					<label>End Year: </label>
+					<span data-link="~validyear(endYear)" class="viewing"></span>
+					<input data-link="endYear" class="editing" />
+					<label class="printMeLabel">Print?<input type="checkbox" class="printMe max5" data-link="{trueFalseToChecked:dltPrint:checkedToTrueFalse} checked{trueFalseToChecked:dltPrint}" /></label>
+					<button class="editPropButton viewing">Edit</button>
+					<button class="savePropButton editing">Done</button>
+					<button class="deletePropButton viewing">Delete</button>
+					</div>			
+				{{/for}}
+			
+			</div>
+		</div>
+		
+	</div>
+</script>
+
+<script id="profTemplateB" type="text/x-jsrender">
+		/*
+		<div class="topspanB">
+			<input data-link="name" />
+		</div>
+		*/
+		
+</script>
+
+
+
+<script type="text/javascript">
+	//alert("Hello");
+	//onclick="alert($(this).text() + $.view(this).index.toString());"
+
+$(document).ready(function() {
+	var profs = [
+		{
+			name: "Random Professor",
+			currentTitle: "Professor of Law at Mercer",
+			birthYear: "",
+			birthYearoptin: "false",
+			tenured: "Yes",
+			tenureYear: "2009",
+			email: "randomprof@school.edu",
+			gender: "Female",
+			genderOptin: "true",
+			ethnicity: [{ethval: "White(non-Hisp.orig.)"}],
+			ethnicityOptin: "false",
+			totalYearsTeaching: 8,
+			schoolLinks: [
+				{primary: "false", schoolName: "Ohio State", positionType: "Tenured Faculty", career: "Visiting Here", leaving: "n"},
+				{primary: "true", schoolName: "Mercer", positionType: "Tenured Faculty", career: "Visiting Away", leaving: "n"}
+			],
+			degrees: [{degree: "BA", yearAwarded: "1981", field: "Psychology", school: "Cornell"}, {degree: "JD", field: "Law", yearAwarded: "1989", school: "Cornell Law School"}],
+			employment: [
+				{position: "Legal Writing Professor", employer: "Yale University Law School", startYear: "1991", endYear: "1992", dltPrint: "true"},
+				{position: "Visiting Assistant Professor", employer: "University of Michigan School of Law", startYear: "1992", endYear: "1993", dltPrint: "true"},
+				{position: "Visiting Assistant Professor", employer: "Ohio State", startYear: "2003", endYear: "2004", dltPrint: "false"},
+				{position: "Professor of Law", employer: "Mercer", startYear: "2004", endYear: "", dltPrint: "true"}
+			],
+			nonTeachingEmployment: [
+				{position: "Clerk", employer: "Hon. Judge Anonymous", startYear: "1989", endYear: "1991", dltPrint: "true"},
+				{position: "Deputy Assistant Attorney General", employer: "Pennsylvania State AG Office", startYear: "1993", endYear: "1998", dltPrint: "true"},
+				{position: "Associate", employer: "Law Offices of Someone Anonymous", startYear: "1998", endYear: "1999", dltPrint: "false"},
+				{position: "Associate Director", employer: "Some Association", startYear: "2012", endYear: "", dltPrint: "false"}
+			],
+			subjects: [
+				{
+					subject: "Administrative Law",
+					yearsTeaching: 8,
+					courses: [
+						{coursetitle: "Administrative Law", seminar: "false", currentlyTeaching: "true"}
+					]
+				},
+				{
+					subject: "Legislation",
+					yearsTeaching: 8,
+					courses: [
+						{coursetitle: "Statutory Interpretation", seminar: "false", currentlyTeaching: "true"}
+					]
+				},
+				{
+					subject: "Property",
+					yearsTeaching: 3,
+					courses: [
+						{coursetitle: "Property Law", seminar: "false", currentlyTeaching: "true"}
+					]
+				},
+				{
+					subject: "Other / N/A",
+					yearsTeaching: 1,
+					courses: [
+						{coursetitle: "Administrative Law Practicum", seminar: "true", currentlyTeaching: "true"}
+					]
+				},
+				{
+					subject: "Business Associations",
+					yearsTeaching: 3,
+					courses: [
+						{coursetitle: "Business Associations", seminar: "false", currentlyTeaching: "false"}
+					]
+				}
+			],
+			books: [
+				{
+					booktitle: "Legislative Interpretation", year: "2009", subjects:[{subject: "Legislation"}], dltPrint: "true"
+				},
+				{
+					booktitle: "Mastering Administrative Interpretation", year: "2010", subjects:[{subject: "Legislation"},{subject: "Administrative Law"}], dltPrint: "true"
+				}
+			],
+			articles: [
+				{
+					title: "Commercial Law Today", year: "2012", subjects:[{subject: "Comparitive Law"},{subject: "Commercial Law"}], journal: "Prestigious Law Monthly", dltPrint: "false", articleAbstract: "Abstract Article 1"
+				},
+				{
+					title: "Criminal Law Today", year: "1999", subjects:[{subject: "Criminal Law"}], journal: "Bob's Totally Awesome Law Monthly", dltPrint: "false", articleAbstract: "Abstract Article 2"
+				},
+				{
+					title: "Thoughts on Animal Law", year: "1989", subjects:[], journal: "Animal Law Monthly", dltPrint: "false", articleAbstract: "Abstract Article 3"
+				}
+			],
+			lawReview: [
+				
+			],
+			awards: [
+				{award: "Hooder", year: "2010", dltPrint: "true"}
+			],
+			academicOrgs: [
+				{org: "Some Anonymous Association", title: "Associate Director", dltPrint: "true", startYear: "2012", endYear: ""},
+				{org: "ABA - Section on Administrative Law", title: "Council Member", dltPrint: "true", startYear: "2006", endYear: ""},
+				{org: "Southeastern Association of Law Schools", title: "Member", dltPrint: "true", startYear: "2011", endYear: "2012"}
+			]
+		},
+		{
+			name: "Random Professor",
+			currentTitle: "Professor of Law at Mercer",
+			birthYear: "",
+			birthYearoptin: "false",
+			tenured: "Yes",
+			tenureYear: "2009",
+			email: "randomprof@school.edu",
+			gender: "Female",
+			genderOptin: "true",
+			ethnicity: [{ethval: "White(non-Hisp.orig.)"}],
+			ethnicityOptin: "false",
+			totalYearsTeaching: 8,
+			schoolLinks: [
+				{primary: "false", schoolName: "Ohio State", positionType: "Tenured Faculty", career: "Visiting Here", leaving: "n"},
+				{primary: "true", schoolName: "Mercer", positionType: "Tenured Faculty", career: "Visiting Away", leaving: "n"}
+			],
+			degrees: [{degree: "BA", yearAwarded: "1981", field: "Psychology", school: "Cornell"}, {degree: "JD", field: "Law", yearAwarded: "1989", school: "Cornell Law School"}],
+			employment: [
+				{position: "Legal Writing Professor", employer: "Yale University Law School", startYear: "1991", endYear: "1992", dltPrint: "true"},
+				{position: "Visiting Assistant Professor", employer: "University of Michigan School of Law", startYear: "1992", endYear: "1993", dltPrint: "true"},
+				{position: "Visiting Assistant Professor", employer: "Ohio State", startYear: "2003", endYear: "2004", dltPrint: "false"},
+				{position: "Professor of Law", employer: "Mercer", startYear: "2004", endYear: "", dltPrint: "true"}
+			],
+			nonTeachingEmployment: [
+				{position: "Clerk", employer: "Hon. Judge Anonymous", startYear: "1989", endYear: "1991", dltPrint: "true"},
+				{position: "Deputy Assistant Attorney General", employer: "Pennsylvania State AG Office", startYear: "1993", endYear: "1998", dltPrint: "true"},
+				{position: "Associate", employer: "Law Offices of Someone Anonymous", startYear: "1998", endYear: "1999", dltPrint: "false"},
+				{position: "Associate Director", employer: "Some Association", startYear: "2012", endYear: "", dltPrint: "false"}
+			],
+			subjects: [
+				{
+					subject: "Administrative Law",
+					yearsTeaching: 8,
+					courses: [
+						{coursetitle: "Administrative Law", seminar: "false", currentlyTeaching: "true"}
+					]
+				},
+				{
+					subject: "Legislation",
+					yearsTeaching: 8,
+					courses: [
+						{coursetitle: "Statutory Interpretation", seminar: "false", currentlyTeaching: "true"}
+					]
+				},
+				{
+					subject: "Property",
+					yearsTeaching: 3,
+					courses: [
+						{coursetitle: "Property Law", seminar: "false", currentlyTeaching: "true"}
+					]
+				},
+				{
+					subject: "Other / N/A",
+					yearsTeaching: 1,
+					courses: [
+						{coursetitle: "Administrative Law Practicum", seminar: "true", currentlyTeaching: "true"}
+					]
+				},
+				{
+					subject: "Business Associations",
+					yearsTeaching: 3,
+					courses: [
+						{coursetitle: "Business Associations", seminar: "false", currentlyTeaching: "false"}
+					]
+				}
+			],
+			books: [
+				{
+					booktitle: "Legislative Interpretation", year: "2009", subjects:[{subject: "Legislation"}], dltPrint: "true"
+				},
+				{
+					booktitle: "Mastering Administrative Interpretation", year: "2010", subjects:[{subject: "Legislation"},{subject: "Administrative Law"}], dltPrint: "true"
+				}
+			],
+			articles: [
+				{
+					title: "Commercial Law Today", year: "2012", subjects:[{subject: "Comparitive Law"},{subject: "Commercial Law"}], journal: "Prestigious Law Monthly", dltPrint: "false", articleAbstract: "Abstract Article 1"
+				},
+				{
+					title: "Criminal Law Today", year: "1999", subjects:[{subject: "Criminal Law"}], journal: "Bob's Totally Awesome Law Monthly", dltPrint: "false", articleAbstract: "Abstract Article 2"
+				},
+				{
+					title: "Thoughts on Animal Law", year: "1989", subjects:[], journal: "Animal Law Monthly", dltPrint: "false", articleAbstract: "Abstract Article 3"
+				}
+			],
+			lawReview: [
+				
+			],
+			awards: [
+				{award: "Hooder", year: "2010", dltPrint: "true"}
+			],
+			academicOrgs: [
+				{org: "Some Anonymous Association", title: "Associate Director", dltPrint: "true", startYear: "2012", endYear: ""},
+				{org: "ABA - Section on Administrative Law", title: "Council Member", dltPrint: "true", startYear: "2006", endYear: ""},
+				{org: "Southeastern Association of Law Schools", title: "Member", dltPrint: "true", startYear: "2011", endYear: "2012"}
+			]
+		}
+	]
+	
+	var subjlist = ["Administrative Law","Civil Law","Constitutional Law","Comparitive Law","Maritime/Admiralty Law","Tax Law"];
+	var degreesList = ["JD","MBA","PhD","LLM","BS","BA","BFA","MS","MA"];
+	
+	var contextHelpers = {
+			schoolLinks: function(ind) {
+				return profs[ind].schoolLinks;
+			},
+			tfyn: function(tfval) {
+					//console.log('tfyn:' + tfval + (tfval === "true") + (tfval === true));
+					return ((tfval === true) || (tfval === "true"))  ? "Yes" : "No";
+			},
+			validyear: function(yearstring) {
+				return (yearstring === "(Edit)") || ((yearstring.length <= 0) || ((parseInt(yearstring) >= 1870) && (parseInt(yearstring) <= 2020))) ? yearstring : "Please provide a valid year in YYYY format or leave blank for N/A continuing";
+			},
+			yntf: function(ynval) {
+				//console.log('yftn:' + ynval);
+				return ynval === "Yes" ? "true" : "false";
+			},
+			tenureCheck: function(tncheck) {
+				//console.log(tncheck);
+				return tncheck === "Yes" ? "true" : undefined;
+			},
+			getCurrentTitle: function(employmentcollection) {
+				var currentPosition = "No Title Selected - please pick from employment below.";
+				$.each( employmentcollection, function(index, item) {
+					if (item.current === "true")
+					{
+						//console.log("GCT Check:" +  item.position + "#" + item.current);
+						currentPosition = item.position;
+					}
+				}
+				);
+				return currentPosition;
+			},
+			isCurrentTitle: function(position) {
+				var view = this;
+				//console.log(view.parent.parent.data.currentTitle + "pos:" + position + (view.parent.parent.data.currentTitle === position));
+				return view.parent.parent.data.currentTitle === position ? "on" : "";
+			},
+			isPrimarySchool: function() {
+				var view = this;
+				//console.log(view.index + (view.parent.data[view.index].primary === "true").toString());
+				return view.parent.data[view.index].primary === "true" ? "on" : "";
+			},
+			getOrgTitle: function() {
+				var view = this;
+				var thisSchoolData = view.data.schoolLinks;
+				var thisSchoolName = "(School Name)";
+				$.each( thisSchoolData, function(index, item) {
+						if (item.primary === "true")
+						{
+							thisSchoolName = item.schoolName;
+						}
+				}
+				);
+				return thisSchoolName;
+			},
+			addSubjectsHelper: function() {
+				var helperListOfSubjects = "";
+				$.each(subjlist, function(index, item){
+					helperListOfSubjects = helperListOfSubjects + "<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>"
+				}
+				);
+				return helperListOfSubjects;
+			},
+			addTitleOptionsHelper: function(ind) {
+				var helperListOfTitles = "";
+				
+				//console.log(profs[ind].employment[3].endYear.toString());
+				
+				
+				$.each(profs[ind].employment, function(index, item){
+					//helperListOfSubjects = helperListOfSubjects + "<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>"
+					
+					if (item.endYear.toString() === "")
+					{
+						
+						helperListOfTitles = helperListOfTitles + "<option value='" + item.position.replace(/\s/,"") + "'>" + item.position + " at " + item.employer + "</option>";
+						
+					}
+					
+					
+				}
+				);
+				
+				$.each(profs[ind].nonTeachingEmployment, function(index, item){
+					//helperListOfSubjects = helperListOfSubjects + "<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>"
+					
+					if (item.endYear.toString() === "")
+					{
+						
+						helperListOfTitles = helperListOfTitles + "<option value='" + item.position.replace(/\s/,"") + "'>" + item.position + " at " + item.employer + "</option>";
+						
+					}
+					
+					
+				}
+				);
+				
+				return helperListOfTitles.length === 0 ? '<option></option>' : helperListOfTitles;
+				
+			},
+			addDegreesHelper: function() {
+				var helperListOfDegrees = "";
+				$.each(degreesList, function(index, item){
+					helperListOfDegrees = helperListOfDegrees + "<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>"
+				}
+				);
+				return helperListOfDegrees;
+			}
+			
+	};
+	
+	$.views.converters({
+		trueFalseToChecked: function( val ) {
+			return val === "true" ? "true" : undefined;
+		},
+		checkedToTrueFalse: function ( val ) {
+			//console.log("cttf: " + "val?" + val + ";val===true?" + (val === true));
+			return val === true ? "true" : "false";
+		},
+		trueFalseToYesNo: function( val ) {
+			return val === "true" ? "Yes" : "No";
+		},
+		intToYearsTeaching: function ( val ) {
+			return ((parseInt(val) >= 0) && (parseInt(val) <= 100)) ? val : 0;
+		},
+		yearsTeachingToInt: function ( val ) {
+			return ((parseInt(val) >= 0) && (parseInt(val) <= 100)) ? val : "";
+		}
+	});
+
+	profs[0].employment.sort( function(a,b) { return parseInt(b.startYear) - parseInt(a.startYear); } );
+	
+	$.templates({
+		//profTmplB: "#profTemplateB",
+		profTmpl: "#profTemplate"
+	});
+	
+	//BEGIN: DEFER
+	$("#testme").on("click", function() {
+		alert(JSON.stringify(profs));
+		
+	});
+	//$.link.profTmplB(profs, "#profListDivB");
+	$.link.profTmpl(profs, "#profListDiv", contextHelpers)
+		.on("click", ".propAddButton", function()
+		{
+			//$.observable( movies ).remove( $.view( this ).index, 1 );
+			//alert("propAddClick");
+			//var thisprofsPropOnes = $.view(this).data.propOne;
+			//$.observable(thisprofsPropOnes).insert(thisprofsPropOnes.length, {propValue: "newPropValue"});
+			var classList =$(this).attr('class').split(/\s+/);
+			var that = this;
+			var fdomain;
+			var frange;
+			$.each
+			( 
+				classList, function(index, item)
+				{ 
+						if(item.slice(0, 1) === "x")
+						{
+							var keyValueList = item.split(/_/);
+							var myKey = keyValueList.shift();
+							//alert(myKey.slice(1, myKey.length));
+							myKey = myKey.slice(1, myKey.length);
+							//alert(myKey);
+							//alert(keyValueList.length);
+							var thisprofsProperty = $.view(that).data[myKey];
+							//alert(thisprofsProperty);
+							prepareValueList(keyValueList);
+							$.observable(thisprofsProperty).insert(thisprofsProperty.length, prepareValueList(keyValueList));
+						}
+				}
+			);
+			return false;
+		}
+		)
+		.on("click", ".deletePropButton", function(event)
+		{
+			//view here must map to the individual property?
+			if($(this).hasClass("italic"))
+			{
+				var view = $.view(this);
+				//alert(objToString(view));
+				$.observable( view.parent.data ).remove( view.index, 1 );
+			}
+			else
+			{
+				$(this).addClass("italic");
+				$(this).text($(this).text() + "?");
+			}
+		}
+		)
+		.on("click", ".editPropButton,.savePropButton", function(event)
+		{
+			//edit - toggle CSS class on parent div
+			//alert("h");
+			//$(this).parentsUntil(".propWrapper").toggleClass("viewmode editmode");
+			//alert($(event.target).parents(".propWrapper").size());
+			var closestPropwrapper = $(this).closest(".propWrapper");
+			if ($(closestPropwrapper).hasClass("viewmodeb") || $(closestPropwrapper).hasClass("editmodeb"))
+			{
+				closestPropwrapper.toggleClass("viewmodeb editmodeb");
+			}
+			else
+			{
+				closestPropwrapper.toggleClass("viewmode editmode");
+			}
+		}
+		)
+		.on("click", ".subjAddSelect option", function(event)
+		{
+			//alert("select");
+			var subjects = $.view(this).data.subjects;
+			//alert($.view(this).data.subjects[$(this).text()]);
+			var thisSubj = $(this).text();
+			//console.log("THIS SUBJECT:" + thisSubj);
+			var match = 0;
+			$.each (subjects, function(index, item) {
+				//console.log(item.subject + "#" + thisSubj);
+				if(item.subject === thisSubj)
+				{
+					match++;
+				}
+			}
+			);
+			if (match === 0)
+			{
+				$.observable(subjects).insert(0, {subject: $(this).text(), courses: []});
+			}
+		}
+		)
+		.on("click", ".employerSelect option", function(event)
+		{	
+			if ($(this).hasClass("pleaseSelect"))
+			{
+			
+			}
+			else if ($(this).hasClass("displayFreeText"))
+			{
+				$(this).parent().siblings(".makeMeInvisible").toggleClass("makeMeInvisible");
+			}
+			else
+			{
+				//console.log($.view($(this).parent()).data["employer"].toString());
+				//console.log('thisEmployer=' + $.view(this).parent.data.employer);
+				//console.log('thisText=' + $(this).text());
+				//$(this).parent().siblings(".makeMeInvisible").text($(this).text());
+				$.observable($.view($(this).parent()).data).setProperty('employer', $(this).text());
+			}
+		}
+		)
+		.on("click", ".ethSelect option", function(event)
+		{
+			var ethnicities = $.view(this).data.ethnicity;
+			var thisEthnic = $(this).text();
+			var match = 0;
+			
+			$.each (ethnicities, function(index, item) {
+				if(item.ethval === thisEthnic)
+				{
+					match++;
+				}				
+			}
+			);
+			if (match === 0)
+			{
+				$.observable(ethnicities).insert(ethnicities.length, {ethval: $(this).text()});
+			}
+		}
+		)
+		.on ("click", ".ctRadio", function(event)
+		{
+			//Debug:
+			//console.log($(this).attr("value"));
+			var rootview = $.view(this).parent.parent;
+			var thisview = $.view(this);
+			var curTitle = rootview.data.currentTitle;
+			var thisTitle = thisview.data.position;
+			
+			//console.log(rootview.data.currentTitle + "###thisview:" + thisview.data.position + "==?" + (rootview.data.currentTitle === thisview.data.position));
+			if (curTitle === thisTitle)
+			{
+				//do nothing
+			}
+			else
+			{
+				//curTitle = thisTitle;
+				//console.log($.observable(rootview.data).data().currentTitle);
+				//console.log($.observable(rootview.data.currentTitle));
+				//$.observable(rootview.data.ethnicity).remove(0, 1);
+				//rootview.data.currentTitle = thisTitle;
+				//console.log(rootview.data.currentTitle);
+				$.observable(rootview.data).setProperty("currentTitle", thisTitle);
+			}
+		}
+		)
+		.on ("click", ".psRadio", function(event)
+		{
+			//Debug:
+			//console.log($(this).attr("value"));
+			var thisview = $.view(this);
+			var schools = thisview.parent.data;
+			var thisindex = thisview.index;
+			
+			$.each( schools, function(index, item) {
+					if (index === thisindex)
+					{
+						//item.primary = "true";
+						$.observable(item).setProperty("primary", "true");
+						//console.log("primary set:" + item.schoolName);
+						$(".primOrg").text(item.schoolName);
+					}
+					else
+					{
+						//item.primary = "false";
+						$.observable(item).setProperty("primary", "false");
+						//console.log("primary off:" + item.schoolName);
+					}
+				}
+			);
+			//console.log("after observe:" + thisview.parent.data[0].primary.toString() + thisview.parent.data[1].primary.toString());
+		}
+		)
+		.on ("click", ".pubsubjAddSelect option", function(event)
+		{
+		
+			//alert("select");
+			var subjects = $.view(this).data.subjects;
+			//alert($.view(this).data.subjects[$(this).text()]);
+			var thisSubj = $(this).text();
+			//console.log("THIS SUBJECT:" + thisSubj);
+			var match = 0;
+			$.each (subjects, function(index, item) {
+				//console.log(item.subject + "#" + thisSubj);
+				if(item.subject === thisSubj)
+				{
+					match++;
+				}
+			}
+			);
+			if (match === 0)
+			{
+				$.observable(subjects).insert(0, {subject: $(this).text()});
+			}
+		}
+		)
+		.on ("click", ".currentTitleSelect option", function(event)
+		{
+			$.observable($.view(this).data).setProperty("currentTitle", $(this).text());
+			var closestPropwrapper = $(this).closest(".propWrapper");
+			if ($(closestPropwrapper).hasClass("viewmodeb") || $(closestPropwrapper).hasClass("editmodeb"))
+			{
+				closestPropwrapper.toggleClass("viewmodeb editmodeb");
+			}
+			else
+			{
+				closestPropwrapper.toggleClass("viewmode editmode");
+			}
+		}
+		)
+		.on ("click", ".printMe", function(event)
+		{
+		
+			//get max var
+			var classList = $(this).attr('class').split(/\s+/);
+			var thisMax = 5;
+			$.each(
+				classList, function( index, item ){
+					var myKey = item.slice(0, 3);
+					if(myKey === "max")
+					{
+							
+							myMax = parseInt(item.slice(3, item.length));
+							if (myMax > 0)
+							{
+								thisMax = myMax;
+							}
+					}
+					
+				}
+			);
+			//console.log('thisMax=' + thisMax.toString());
+			//if checked:
+			if ($(this).attr('checked'))
+			{
+				//console.log('checked=true');
+				//if at max:
+				var countMe = $.view(this).parent.data;
+				var limitCounter = 0;
+				$.each(
+					countMe, function ( index, item )
+					{
+						console.log('  dltPrint for Item at index' + index.toString() + ' = ' + item['dltPrint'].toString());
+						if (item['dltPrint'] === "true")
+						{
+							
+							limitCounter++;
+							//console.log('  limitCounter=' + limitCounter.toString());
+						}
+						if (limitCounter === (thisMax + 1))
+						{
+							//uncheck item at index(max)
+							$.observable(item).setProperty("dltPrint","false");
+							alert('A maximum of ' + thisMax.toString() + ' of these items may be selected for printing in the DLT.');
+							console.log('  "dltPrint" for item at index=' + index.toString() + ' set to ' + item['dltPrint'].toString());
+						}
+					}
+				);
+				
+				//change observable at index to checked
+				$.observable($.view(this)).setProperty("dltPrint","true");
+			}
+			//else:
+			else
+			{
+				//console.log('checked=false');
+				//change observable at index to unchecked
+				$.observable($.view(this)).setProperty("dltPrint","false");
+				
+			}
+			$.observable($.view(this).parent.data).refresh($.view(this).parent.data);
+		}
+		)
+		.on("click", ".empStyle", function(event)
+		{
+			var newTitleList = contextHelpers.addTitleOptionsHelper(0);
+			console.log(newTitleList);
+			
+			/*
+			var parentsCount = 1;
+			var countmyparents = $(this);
+			while (parentsCount >= 1)
+			{
+				console.log(parentsCount.toString() + ":" + $(countmyparents).attr('class') + 'I Have ' + countmyparents.parents().length.toString() + ' parents')
+				parentsCount = countmyparents.parents().length;
+				countmyparents = countmyparents.parent();
+			}
+			console.log($(this).closest('.backStop').children().length.toString());
+			*/
+			
+			/*
+			var pdHolder = $.view(this).parent.data;
+			console.log("index=" + pdHolder);
+			*/
+			
+			var thisCTS = $(this).closest('.accordionContainer').find('.currentTitleSelect');
+			thisCTS.replaceWith('<span class="phb">placeholder</span>');
+			thisCTS.empty();
+			thisCTS.append(newTitleList);
+			$('.phb').replaceWith(thisCTS);
+			
+			//re-sort employ data
+			$.view(this).parent.data.sort( function(a,b) { return parseInt(b.startYear) - parseInt(a.startYear); } );
+			//refresh observable
+			$.observable($.view(this).parent.data).refresh($.view(this).parent.data);
+			//re-apply disable styles to non-current::DEPRECATED
+			//$(this).closest('.propWrapper').children('.emplEndYear').filter(function(index) {return $(this).text().length > 3}).prevAll('.emplTitleSpan').attr('disabled','true');
+			//$(this).closest('.propWrapper').children('.emplEndYear').filter(function(index) {console.log(index.toString() + $(this).text()); return $(this).text().length <= 3}).prevAll('.emplTitleSpan').removeAttr('disabled');
+			//$('.emplEndYear').filter(function(index) {return $(this).text().length > 0}).prevAll('.emplTitleSpan').attr('disabled','true');
+			
+			//$(this).closest('.accordionContainer').children('.currentTitleSelect').after('<div>HelloWorld</div>');
+			
+			//thisCTS.after("HelloWorld");
+			/*
+			thisCTS.replaceWith('<span class="phb">placeholder</span>');
+			thisCTS.empty();
+			thisCTS.append(newTitleList);
+			$(this).closest('.accordionContainer').children('.currentTitleSelect').replaceWith(thisCTS);
+			*/
+		}
+		)
+		;
+		
+	//ADD SELECT VALUES TO SUBJECT LIST
+	var slcontrol = $(".subjAddSelect");
+	slcontrol.replaceWith('<span class="ph">placeholder</span>');
+	
+	$.each( subjlist, function(index, item) {
+		slcontrol.append("<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>");
+	}
+	);
+	$(".ph").replaceWith(slcontrol);
+	
+	//END: DEFER
+	
+	/*
+	var pslcontrol = $(".pubsubjAddSelect");
+	
+	$.each ( pslcontrol, function(index, item) {
+		console.log(item.toString());
+		
+		$(item).replaceWith('<span class="ph">placeholder</span>');
+		var psubjlist = subjlist;
+		console.log(psubjlist.toString());
+		
+		var thispsl = item;
+		console.log(thispsl.toString());
+		
+		$.each( psubjlist, function(index, item) {
+			$(thispsl).append("<option value='" + item.replace(/\s/,"") + "'>" + item + "</option>");
+		}
+		);
+		$(".ph").replaceWith(thispsl);
+		
+	}
+	);
+	*/
+	
+	
+	function prepareValueList(valuelist) 
+	{
+		var pvl = {};
+		$.each
+		(
+				
+				valuelist, function(index, item)
+				{
+					//alert(item);
+					if(item.slice(0, 1) === "0")
+					{
+						pvl[item.slice(1, item.length)] = [];
+					}
+					else
+					{
+						pvl[item] = "";
+					}
+				}
+		)
+		return pvl;
+	}
+	$(".accordionDiv").accordion({ collapsible: true, active: false, alwaysOpen: false,  autoHeight: false  });
+	//$('.emplEndYear').filter(function(index) {return $(this).text().length > 0}).prevAll('.emplTitleSpan').attr('disabled','true');
+
+});
+
+	
+
+
+
+			
+		
+
+	
+	//alert("h");
+	
+
+</script>
+</body>
+</html>
